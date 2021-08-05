@@ -76,6 +76,18 @@
       getRequestIndex.onsuccess= () => {
         console.log(getRequestIndex.result);
       };
+
+      // Opens a Cursor request and iterates over the documents -- Don't know if I need this
+      // const getCursorRequest = toDoListStore.openCursor();
+      //   getCursorRequest.onsuccess = e => {
+      //     const cursor = e.target.result;
+      //     if (cursor) {
+      //       console.log(cursor.value);
+      //       cursor.continue();
+      //     } else {
+      //       console.log("No documents left!");
+      //     }
+      //   };
     }; 
   </script>
 </body>
