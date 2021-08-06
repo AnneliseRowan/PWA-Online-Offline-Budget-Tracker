@@ -22,7 +22,8 @@ self.addEventListener("install", function(evt) {
   
     self.skipWaiting();
 });
-  
+ 
+// activate
 self.addEventListener("activate", function(evt) {
     evt.waitUntil(
         caches.keys().then(keyList => {
@@ -40,7 +41,7 @@ self.addEventListener("activate", function(evt) {
     self.clients.claim();
 });
   
-  // fetch
+// fetch
 self.addEventListener("fetch", (evt) => {
     // cache successful requests to the API
     if (evt.request.url.includes("/api/")) {
