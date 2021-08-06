@@ -47,17 +47,17 @@ self.addEventListener("fetch", (evt) => {
         evt.respondWith(
             caches
                 .open(DATA_CACHE_NAME)
-                .then(async (cache) => {
-                    try {
-                        const response = await fetch(evt.request);
-                        // If the response was good, clone it and store it in the cache.
+                .then((cache) => {
+                    return fetch(evt.request)
+                    .then((response) => {
                         if (response.status === 200) {
                             cache.put(evt.request.url, response.clone());
                         }
-                        return response;
-                    } catch (err) {
-                        return await cache.match(evt.request);
-                    }
+                        return response; 
+                    })
+                    .catch ((err) => {
+                        return cache.match(evt.request);
+                    })
                 })
                 .catch(err => console.log(err))
         );
@@ -68,13 +68,15 @@ self.addEventListener("fetch", (evt) => {
     // if the request is not for the API, serve static assets using "offline-first" approach.
     // see https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook#cache-falling-back-to-network
     evt.respondWith(
-        fetch(evt.request).catch(async () => {
-        await caches.match(evt.request);
-            if (response) {
-                return response;
-            } else if (evt.request.headers.get("accept").includes("text/html")) {
-                return caches.match("/");
-            }
+        fetch(evt.request).catch(() => {
+            return caches.match(evt.request).then((response) => {
+                if (response) {
+                    return response;
+                } else if (evt.request.headers.get("accept").includes("text/html")) {
+                    return caches.match("/");
+                }
+            });
+                
         })
     )    
 });

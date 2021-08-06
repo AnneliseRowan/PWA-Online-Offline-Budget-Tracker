@@ -7,15 +7,15 @@ request.onupgradeneeded = ({ target }) => {
   const db = target.result; 
 
   // Creates an object store with a listID keypath that can be used to query on.
-  db.createdObjectStore("waiting", { keyPath: "listID", autoIncrement: true });
+  db.createObjectStore("waiting", { keyPath: "listID", autoIncrement: true });
 }; 
 
 // Opens a transaction, accesses the toDoList objectStore and statusIndex.
 request.onsuccess = ({ target }) => {
-  const db = target.result; 
+  db = target.result; 
 
   if (navigator.onLine) {
-      checkDatabase();
+      checkInput();
   }
 };
 
@@ -24,16 +24,15 @@ request.onerror = ({ target }) => {
 }
 
 const saveInput = (input) => {
-
-}
-
-const checkInput = (input) => {
-
-}
-
-getAll.onsuccess = () => {
     const transaction = db.transaction(["waiting"], "readwrite"); 
-    const store = transaction.objectStore("pending"); 
+    const store = transaction.objectStore("pending");
+
+    store.addEventListener(input); 
+}
+
+const checkInput = () => {
+    const transaction = db.transaction(["waiting"], "readwrite"); 
+    const store = transaction.objectStore("waiting"); 
     const getAll = store.getAll(); 
 
     getAll.onsuccess = () => {
@@ -54,6 +53,6 @@ getAll.onsuccess = () => {
             });
         }
     };
-}
+};
 
-window.addEventListener("online", checkDatabase); 
+window.addEventListener("online", checkInput); 
