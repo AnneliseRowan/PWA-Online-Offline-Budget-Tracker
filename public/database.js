@@ -15,7 +15,7 @@ request.onsuccess = ({ target }) => {
   db = target.result; 
 
   if (navigator.onLine) {
-      checkInput();
+      checkRecord();
   }
 };
 
@@ -23,17 +23,20 @@ request.onerror = ({ target }) => {
     console.log(`Uhhh-Ohhh ${target}`)
 }
 
-const saveInput = (input) => {
+const saveRecord = (input) => {
+    console.log("saving record", input)
     const transaction = db.transaction(["waiting"], "readwrite"); 
-    const store = transaction.objectStore("pending");
+    console.log("transaction", transaction)
+    const store = transaction.objectStore("waiting");
 
-    store.addEventListener(input); 
+    store.add(input); 
 }
 
-const checkInput = () => {
+const checkRecord = () => {
     const transaction = db.transaction(["waiting"], "readwrite"); 
     const store = transaction.objectStore("waiting"); 
     const getAll = store.getAll(); 
+    console.log("getAll", getAll)
 
     getAll.onsuccess = () => {
         if (getAll.result.length > 0) {
@@ -47,12 +50,12 @@ const checkInput = () => {
             })
             .then(response => response.json())
             .then(() => {
-                transaction; 
-                store; 
+                const transaction = db.transaction(["waiting"], "readwrite"); 
+                const store = transaction.objectStore("waiting");  
                 store.clear(); 
             });
         }
     };
 };
 
-window.addEventListener("online", checkInput); 
+window.addEventListener("online", checkRecord); 
