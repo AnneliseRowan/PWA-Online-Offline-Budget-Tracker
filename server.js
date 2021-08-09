@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
+mongoose.connect("mongodb+srv://AnneliseRowan:Rom-Dom-64@pwa-budget-tracker.cuodo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" || "mongodb://localhost/budget", {
   useNewUrlParser: true,
   useFindAndModify: false
 });
