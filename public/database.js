@@ -50,11 +50,9 @@ const checkRecord = () => {
             })
             .then(response => response.json())
             .then(() => {
-                const transaction = db.transaction(['waiting'], 'readwrite');
-                const store = transaction.objectStore('waiting');
                 store.clear();
             })
-            .catch(err => console.log('err'));
+            .catch((err) => console.log(err));
         }
     };
 };
