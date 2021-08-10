@@ -24,7 +24,6 @@ request.onerror = ({ target }) => {
 }
 
 const saveRecord = (input) => {
-    console.log("saving record", input)
     const transaction = db.transaction(["waiting"], "readwrite"); 
     const store = transaction.objectStore("waiting");
 
@@ -35,11 +34,9 @@ const checkRecord = () => {
     const transaction = db.transaction(["waiting"], "readwrite"); 
     const store = transaction.objectStore("waiting"); 
     const getAll = store.getAll(); 
-    console.log("getAll", getAll)
 
     getAll.onsuccess = () => {
         if (getAll.result.length > 0) {
-            console.log('getAll.result:', getAll.result)
             fetch("/api/transaction/bulk", {
                 method: "POST",
                 body: JSON.stringify(getAll.result),
