@@ -39,20 +39,22 @@ const checkRecord = () => {
 
     getAll.onsuccess = () => {
         if (getAll.result.length > 0) {
+            console.log('getAll.result:', getAll.result)
             fetch("/api/transaction/bulk", {
                 method: "POST",
                 body: JSON.stringify(getAll.result),
                 headers: {
                     Accept: "application/json, text/plain, */*",
-                    "Content-Type": "appication/json",
+                    "Content-Type": "application/json",
                 },
             })
             .then(response => response.json())
             .then(() => {
-                transaction;
-                store;  
-                store.clear(); 
-            });
+                const transaction = db.transaction(['waiting'], 'readwrite');
+                const store = transaction.objectStore('waiting');
+                store.clear();
+            })
+            .catch(err => console.log('err'));
         }
     };
 };
