@@ -20,13 +20,12 @@ request.onsuccess = ({ target }) => {
 };
 
 request.onerror = ({ target }) => {
-    console.log(`Uhhh-Ohhh ${target}`)
+    console.log(`Uhhh-Ohhh ${target.errorCode}`)
 }
 
 const saveRecord = (input) => {
     console.log("saving record", input)
     const transaction = db.transaction(["waiting"], "readwrite"); 
-    console.log("transaction", transaction)
     const store = transaction.objectStore("waiting");
 
     store.add(input); 
@@ -50,8 +49,8 @@ const checkRecord = () => {
             })
             .then(response => response.json())
             .then(() => {
-                const transaction = db.transaction(["waiting"], "readwrite"); 
-                const store = transaction.objectStore("waiting");  
+                transaction;
+                store;  
                 store.clear(); 
             });
         }
