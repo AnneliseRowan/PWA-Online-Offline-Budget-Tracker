@@ -24,5 +24,5 @@ When brought back online:
 
 ## Preview
 
-  ![]()
-  ![]()
+  ![](public/assets/screenshot1.png)
+  ![](public/assets/screenshot2.png)
